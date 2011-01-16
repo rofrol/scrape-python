@@ -6,12 +6,12 @@ import re, htmlentitydefs
 from unescape import *
 
 def getSoup(url):
-	usock = urllib.urlopen(url)
-	htmlSource = usock.read()
-	usock.close()
+    usock = urllib.urlopen(url)
+    htmlSource = usock.read()
+    usock.close()
 
-	htmlSource = unescape(htmlSource)
-	return BeautifulSoup(''.join(htmlSource))
+    htmlSource = unescape(htmlSource)
+    return BeautifulSoup(''.join(htmlSource))
 
 soup = getSoup("http://sharg.pl/ajax/items_list.php?c_id=87")
 #print soup.prettify()
@@ -20,13 +20,13 @@ l = len(soup.div('a'))
 s = set()
 
 if l > 0:
-	for i in range(l):
-		soup = getSoup("http://sharg.pl/ajax/items_list.php?c_id=87&page_index="+str(i+1))
-		for i in soup.table.findAll('a'):
-			s.add(i['href'].replace('item.php?nav=',''))
+    for i in range(l):
+        soup = getSoup("http://sharg.pl/ajax/items_list.php?c_id=87&page_index="+str(i+1))
+        for i in soup.table.findAll('a'):
+            s.add(i['href'].replace('item.php?nav=',''))
 else:
-		for i in soup.table.findAll('a'):
-			s.add(i['href'].replace('item.php?nav=',''))
+    for i in soup.table.findAll('a'):
+        s.add(i['href'].replace('item.php?nav=',''))
 
 d={}
 while len(s): d[s.pop()]={}
@@ -42,7 +42,7 @@ for i in soup('div',"menu"): m=p.search(i.a['href']); d2[m.group('word')]= i.a.s
 for k,v in d2.items(): print "%s=%s" % (k,v)
 
 logfile = open('categories.txt', 'w')
-for k,v in d2.items(): logfile.write(("%s=%s" % (k,v)).encode("utf-8"))
+for k,v in d2.items(): logfile.write(("%s=%s" % (k,v)).encode("utf-8")+'\n')
 logfile.close()
 #TODO
 #unique list or just set

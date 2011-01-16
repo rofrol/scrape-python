@@ -25,12 +25,12 @@ def unescape(text):
                 pass
         return text # leave as is
     #return re.sub("&#?\w+;", fixup, text)
-#when i entered x like below, it was ok
-#>>> x=u'ó&nbsp;&#324;'
-#>>> x
-#u'\xf3&nbsp;&#324;'
-#>>> print unescape.unescape(x)
-#ó ń
+    #when i entered x like below, it was ok
+    #>>> x=u'ó&nbsp;&#324;'
+    #>>> x
+    #u'\xf3&nbsp;&#324;'
+    #>>> print unescape.unescape(x)
+    #ó ń
 
 #i had to use decode, because in python console when i enter
 #>>> x='ó&nbsp;&#324;'
@@ -50,5 +50,5 @@ def unescape(text):
 
 #>>> print file('text.txtm).read()
 #>>> file=open('text.txt')
-#>>> for line in file: print line 
+#>>> for line in file: print line
 #>>> reload(unescape)
