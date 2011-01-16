@@ -17,32 +17,32 @@ soup = getSoup("http://sharg.pl/ajax/items_list.php?c_id=87")
 #print soup.prettify()
 #print vars (soup)
 l = len(soup.div('a'))
-s = set()
+navs1 = set()
 
 if l > 0:
     for i in range(l):
         soup = getSoup("http://sharg.pl/ajax/items_list.php?c_id=87&page_index="+str(i+1))
         for i in soup.table.findAll('a'):
-            s.add(i['href'].replace('item.php?nav=',''))
+            navs1.add(i['href'].replace('item.php?nav=',''))
 else:
     for i in soup.table.findAll('a'):
-        s.add(i['href'].replace('item.php?nav=',''))
+        navs1.add(i['href'].replace('item.php?nav=',''))
 
-d={}
-while len(s): d[s.pop()]={}
+navs2={}
+while len(navs1): navs2[navs1.pop()]={}
 
-for k,v in d.items(): print "%s=%s" % (k,v)
+for k,v in navs2.items(): print "%s=%s" % (k,v)
 
 soup = getSoup("http://sharg.pl/")
-d2={}
+cats={}
 import re
 p = re.compile(r'c_id=(?P<word>.+)&')
-for i in soup('div',"menu"): m=p.search(i.a['href']); d2[m.group('word')]= i.a.string.strip();
+for i in soup('div',"menu"): m=p.search(i.a['href']); cats[m.group('word')]= i.a.string.strip();
 
-for k,v in d2.items(): print "%s=%s" % (k,v)
+for k,v in cats.items(): print "%s=%s" % (k,v)
 
 logfile = open('categories.txt', 'w')
-for k,v in d2.items(): logfile.write(("%s=%s" % (k,v)).encode("utf-8")+'\n')
+for k,v in cats.items(): logfile.write(("%s=%s" % (k,v)).encode("utf-8")+'\n')
 logfile.close()
 #TODO
 #unique list or just set
