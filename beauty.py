@@ -37,13 +37,25 @@ soup = getSoup("http://sharg.pl/")
 cats={}
 import re
 p = re.compile(r'c_id=(?P<word>.+)&')
-for i in soup('div',"menu"): m=p.search(i.a['href']); cats[m.group('word')]= i.a.string.strip();
+for i in soup('div',"menu"): m=p.search(i.a['href']); cats[m.group('word')]=i.a.string.strip();
 
 for k,v in cats.items(): print "%s=%s" % (k,v)
 
 logfile = open('categories.txt', 'w')
 for k,v in cats.items(): logfile.write(("%s=%s" % (k,v)).encode("utf-8")+'\n')
 logfile.close()
+
+print "now subcategory"
+soup = BeautifulSoup(''.join(file('items.php?c_id=149').read()))
+subcs={}
+p = re.compile(r'c_id=(?P<word>.+)&')
+for i in soup('div',"menu"):
+    if "&nbsp;|&nbsp;" in str(i):
+        m=p.search(i.a['href'])
+        subcs[m.group('word')]=i.a.string.strip();
+
+for k,v in subcs.items(): print "%s=%s" % (k,v)
+
 #TODO
 #unique list or just set
 #http://www.peterbe.com/plog/uniqifiers-benchmark
