@@ -83,6 +83,10 @@ for i in soup('div',"menu"):
         m=p.search(i.a['href'])
         subcs[m.group('word')]=unescape(i.a.string.strip())
 
+logfile = open('subcategories.txt', 'w')
+for k,v in subcs.items(): logfile.write(("%s=%s" % (k,v))+'\n')
+logfile.close()
+
 for k,v in subcs.items(): print "%s=%s" % (k,v)
 
 #TODO
